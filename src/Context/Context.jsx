@@ -8,16 +8,23 @@ export const ShoppingCartProvider = ({ children }) => {
     children: PropTypes.node.isRequired,
   };
   // Shopping Cart - Increment quantity
-  const [count, setCount] = useState(0)
-  
+  const [count, setCount] = useState(1);
+
   // Product Detail - Open/Close
-  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false)
-  const openProductDetail = () => setIsProductDetailOpen(true)
-  const closeProductDetail = () => setIsProductDetailOpen(false)
-  
+  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
+  const openProductDetail = () => setIsProductDetailOpen(true);
+  const closeProductDetail = () => setIsProductDetailOpen(false);
+
+  // Checkout Side Menu - Open/Close
+  const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false);
+  const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
+  const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
+
   // Product Detail - Show product
-  const [productToShow, setProductToShow] = useState({})
-  
+  const [productToShow, setProductToShow] = useState({});
+  // Shopping Cart - Add products to cart
+  const [cartProducts, setCartProducts] = useState([]);
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -27,7 +34,12 @@ export const ShoppingCartProvider = ({ children }) => {
         closeProductDetail,
         isProductDetailOpen,
         productToShow,
-        setProductToShow
+        setProductToShow,
+        cartProducts,
+        setCartProducts,
+        isCheckoutSideMenuOpen,
+        openCheckoutSideMenu,
+        closeCheckoutSideMenu,
       }}
     >
       {children}

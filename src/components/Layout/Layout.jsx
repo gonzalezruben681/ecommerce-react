@@ -6,7 +6,7 @@ function Layout({ children }) {
     }
 
     return (
-        <div className='flex flex-col items-center mt-20 max-sm:flex-wrap'>{children}</div>
+        <div className='flex flex-col items-center mt-20 max-md:mt-24 max-sm:flex-wrap'>{children}</div>
     )
 }
 
