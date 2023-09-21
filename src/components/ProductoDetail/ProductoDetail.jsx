@@ -7,7 +7,7 @@ const ProductoDetail = () => {
     <aside
       className={`${
         context.isProductDetailOpen ? "flex" : "hidden"
-      } w-[360px] h-[calc(100vh-68px)] top-[68px] flex-col fixed right-0  border border-black rounded-lg bg-white max-sm:overflow-y-auto`}
+      } w-[360px] h-[calc(100vh-68px)] top-[68px] flex-col fixed right-0  border border-black rounded-lg bg-white max-sm:w-full max-md:top-[65px]`}
     >
       <div className="flex justify-between items-center p-6">
         <h2 className="font-medium text-xl">Detail</h2>
@@ -18,6 +18,7 @@ const ProductoDetail = () => {
           ></XMarkIcon>
         </div>
       </div>
+      <div className="max-md:overflow-y-auto scrollable-cards">
       <figure className="px-6">
         <img
           className="w-full h-full rounded-lg"
@@ -36,6 +37,7 @@ const ProductoDetail = () => {
           {context.productToShow.description}
         </span>
       </p>
+      </div>
     </aside>
   );
 };

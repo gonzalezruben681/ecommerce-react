@@ -1,10 +1,16 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartContext } from "../../Context/Context";
+import MenuNavbar from "./MenuNavbar";
 
 const Navbar = () => {
   const context = useContext(ShoppingCartContext);
+  const [toggle, setToggle] = useState(false);
+
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
   const activeStyle = "underline underline-offset-4";
   return (
     <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-3 px-8 text-sm font-light  max-md:flex-row bg-white">
@@ -12,11 +18,11 @@ const Navbar = () => {
         <NavLink to="/">Shopi</NavLink>
       </a>
       <button
-          data-collapse-toggle="navbar-multi-level"
           type="button"
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400  dark:focus:ring-black"
           aria-controls="navbar-multi-level"
           aria-expanded="false"
+          onClick={handleToggle}
         >
           <span className="sr-only">Open main menu</span>
           <svg
@@ -123,6 +129,7 @@ const Navbar = () => {
           <div>{context.cartProducts.length}</div>
         </li>
       </ul>
+      {toggle && <MenuNavbar />}
     </nav>
   );
 };

@@ -24,8 +24,8 @@ function Home() {
         <div className="flex items-center justify-center w-80  relative mb-4">
         <h1 className="font-medium text-xl ">Exclusive Products</h1>
       </div>
-      <input className="rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none" onChange={(event) => context.setSearchByTitle(event.target.value)} type="text" placeholder="Search a product" />
-      <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg  max-md:grid max-md:grid-cols-[repeat(auto-fill,_140px)] max-md:justify-center max-md:mx-2">
+      <input className="rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none max-sm:w-72" onChange={(event) => context.setSearchByTitle(event.target.value)} type="text" placeholder="Search a product" />
+      <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg  max-md:grid max-md:grid-cols-[repeat(auto-fill,_140px)] max-md:justify-center ">
         {renderView()}
       </div>
       <ProductoDetail />
