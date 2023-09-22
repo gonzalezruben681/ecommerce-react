@@ -6,41 +6,104 @@ import MenuNavbar from "./MenuNavbar";
 
 const Navbar = () => {
   const context = useContext(ShoppingCartContext);
+  const activeStyle = "underline underline-offset-4";
   const [toggle, setToggle] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
   };
-  const activeStyle = "underline underline-offset-4";
+
+  // Sign Out
+  const signOut = localStorage.getItem("sign-out");
+  const parsedSignOut = JSON.parse(signOut);
+  const isUserSignOut = context.signOut || parsedSignOut;
+
+  const handleSignOut = () => {
+    const stringifiedSignOut = JSON.stringify(true);
+    localStorage.setItem("sign-out", stringifiedSignOut);
+    context.setSignOut(true);
+  };
+
+  const renderView = () => {
+    if (isUserSignOut) {
+      return (
+        <li>
+          <NavLink
+            to="/sign-in"
+            className={({ isActive }) => (isActive ? activeStyle : undefined)}
+            onClick={() => handleSignOut()}
+          >
+            Sign out
+          </NavLink>
+        </li>
+      );
+    } else {
+      return (
+        <>
+          <li className="text-black/60">rubencho@gmail.com</li>
+          <li>
+            <NavLink
+              to="/my-orders"
+              className={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              My Orders
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/my-account"
+              className={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              My Account
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/sign-in"
+              className={({ isActive }) => (isActive ? activeStyle : undefined)}
+              onClick={handleSignOut}
+            >
+              Sign In
+            </NavLink>
+          </li>
+          <li className="flex items-center">
+            <ShoppingBagIcon className="h-6 w-6 text-black"></ShoppingBagIcon>
+            <div>{context.cartProducts.length}</div>
+          </li>
+        </>
+      );
+    }
+  };
+
   return (
     <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-3 px-8 text-sm font-light  max-md:flex-row bg-white">
       <a href="/" className="font-semibold text-lg">
         <NavLink to="/">Shopi</NavLink>
       </a>
       <button
-          type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400  dark:focus:ring-black"
-          aria-controls="navbar-multi-level"
-          aria-expanded="false"
-          onClick={handleToggle}
+        type="button"
+        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400  dark:focus:ring-black"
+        aria-controls="navbar-multi-level"
+        aria-expanded="false"
+        onClick={handleToggle}
+      >
+        <span className="sr-only">Open main menu</span>
+        <svg
+          className="w-5 h-5 text-black"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 17 14"
         >
-          <span className="sr-only">Open main menu</span>
-          <svg
-            className="w-5 h-5 text-black"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
-        </button>
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M1 1h15M1 7h15M1 13h15"
+          />
+        </svg>
+      </button>
       <ul className="flex items-center gap-3 max-md:hidden">
         <li>
           <NavLink
@@ -98,37 +161,7 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <ul className="flex items-center gap-3 max-md:hidden">
-        <li className="text-black/60">rubencho@gmail.com</li>
-        <li>
-          <NavLink
-            to="/my-orders"
-            className={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            My Orders
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/my-account"
-            className={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            My Account
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/sign-in"
-            className={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            Sign In
-          </NavLink>
-        </li>
-        <li className="flex items-center">
-          <ShoppingBagIcon className="h-6 w-6 text-black"></ShoppingBagIcon>
-          <div>{context.cartProducts.length}</div>
-        </li>
-      </ul>
+      <ul className="flex items-center gap-3 max-md:hidden">{renderView()}</ul>
       {toggle && <MenuNavbar />}
     </nav>
   );
