@@ -1,5 +1,4 @@
 import { useContext} from "react";
-// import { PlusIcon, CheckIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartContext } from "../../Context/Context";
 import { IconProductCheck } from "./Icon";
 
@@ -34,32 +33,6 @@ const Card = (data) => {
     
   };
 
-  // const renderIcon = (id) => {
-  //   let isInCart = context.cartProducts.filter(product => product.id === id).length > 0
-
-  //   if (isInCart) {
-  //     setTimeout(() => {
-  //       return (
-  //         <div
-  //             className="absolute top-0 right-0 flex justify-center items-center bg-black w-6 h-6 rounded-full m-2 p-1"
-  //           >
-  //             <CheckIcon className="h-6 w-6 text-white"></CheckIcon>
-  //           </div>
-  //       )
-
-  //     }, 100);
-  //   } else {
-  //     return (
-  //       <div
-  //           className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1"
-  //           onClick={(event) => addProductsToCart(event, data.data)}
-  //         >
-  //           <PlusIcon className="h-6 w-6 text-black"></PlusIcon>
-  //         </div>
-  //     )
-  //   }
-  // }
-
   return (
     <div
       className="bg-white cursor-pointer w-56 h-60 max-md:w-32 "
@@ -79,7 +52,7 @@ const Card = (data) => {
           }} />
         {/* <IconProductCheck type="check-icon" color="black"  onClick={null} /> */}
       </figure>
-      <p className="flex justify-between ">
+      <p className="flex justify-between items-center">
         <span className="text-sm font-light max-sm:text-xs">
           {data.data.title}
         </span>

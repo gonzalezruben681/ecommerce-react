@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartContext } from "../../Context/Context";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
 
 const MenuNavbar = () => {
   const context = useContext(ShoppingCartContext);
@@ -12,10 +12,14 @@ const MenuNavbar = () => {
     context.setSignOut(true)
   }
 
-   // Sign Out
-   const signOut = localStorage.getItem("sign-out");
-   const parsedSignOut = JSON.parse(signOut);
-   const isUserSignOut = context.signOut || parsedSignOut;
+    // Sign Out
+    const signOut = localStorage.getItem('sign-out')
+    const parsedSignOut = JSON.parse(signOut)
+    const isUserSignOut = context.signOut || parsedSignOut
+    // Account
+    const account = localStorage.getItem('account')
+    const parsedAccount = JSON.parse(account)
+    
 
   const renderView = () => {
     if (isUserSignOut) {
@@ -33,7 +37,7 @@ const MenuNavbar = () => {
     } else {
       return (
         <>
-          <li className="text-black/60">rubencho@gmail.com</li>
+          <li className="text-black/60">{parsedAccount?.email}</li>
         <li>
           <NavLink
             to="/my-orders"
@@ -59,10 +63,7 @@ const MenuNavbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li className="flex items-center">
-          <ShoppingBagIcon className="h-6 w-6 text-black"></ShoppingBagIcon>
-          <div>{context.cartProducts.length}</div>
-        </li>
+       
         </>
       );
     }
@@ -71,7 +72,7 @@ const MenuNavbar = () => {
 
   const activeStyle = "block w-full p-2 rounded underline underline-offset-4";
   return (
-    <div className=" w-[200px] h-[70vh] p-5 border border-black rounded-lg absolute right-0 top-16 flex flex-col items-start gap-6 bg-white">
+    <div className=" w-[200px] h-[70vh] p-5 border border-black rounded-lg absolute right-0 top-16 flex flex-col items-start gap-6 bg-white lg:hidden">
       <ul className="w-full rounded-lg ">
         <li>
           <NavLink
@@ -131,7 +132,11 @@ const MenuNavbar = () => {
 
       <ul className="w-full rounded-lg">
         {renderView()}
+        <li className="flex items-center p-2">
+        <ShoppingCart />
+        </li>
       </ul>
+      
     </div>
   );
 };

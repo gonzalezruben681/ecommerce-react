@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { ShoppingBagIcon } from "@heroicons/react/24/solid";
+
 import { ShoppingCartContext } from "../../Context/Context";
 import MenuNavbar from "./MenuNavbar";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
 
 const Navbar = () => {
   const context = useContext(ShoppingCartContext);
@@ -13,19 +14,26 @@ const Navbar = () => {
     setToggle(!toggle);
   };
 
-  // Sign Out
-  const signOut = localStorage.getItem("sign-out");
-  const parsedSignOut = JSON.parse(signOut);
-  const isUserSignOut = context.signOut || parsedSignOut;
-
-  const handleSignOut = () => {
-    const stringifiedSignOut = JSON.stringify(true);
-    localStorage.setItem("sign-out", stringifiedSignOut);
-    context.setSignOut(true);
-  };
+    // Sign Out
+    const signOut = localStorage.getItem('sign-out')
+    const parsedSignOut = JSON.parse(signOut)
+    const isUserSignOut = context.signOut || parsedSignOut
+    // Account
+    const account = localStorage.getItem('account')
+    const parsedAccount = JSON.parse(account)
+    // Has an account
+    const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true
+    const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true
+    const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState
+  
+    const handleSignOut = () => {
+      const stringifiedSignOut = JSON.stringify(true)
+      localStorage.setItem('sign-out', stringifiedSignOut)
+      context.setSignOut(true)
+    }
 
   const renderView = () => {
-    if (isUserSignOut) {
+    if (hasUserAnAccount && isUserSignOut) {
       return (
         <li>
           <NavLink
@@ -40,7 +48,7 @@ const Navbar = () => {
     } else {
       return (
         <>
-          <li className="text-black/60">rubencho@gmail.com</li>
+          <li className="text-black/60">{parsedAccount?.email}</li>
           <li>
             <NavLink
               to="/my-orders"
@@ -66,10 +74,7 @@ const Navbar = () => {
               Sign In
             </NavLink>
           </li>
-          <li className="flex items-center">
-            <ShoppingBagIcon className="h-6 w-6 text-black"></ShoppingBagIcon>
-            <div>{context.cartProducts.length}</div>
-          </li>
+          
         </>
       );
     }
@@ -161,8 +166,13 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <ul className="flex items-center gap-3 max-md:hidden">{renderView()}</ul>
-      {toggle && <MenuNavbar />}
+      <ul className="flex items-center gap-3 max-md:hidden">
+        {renderView()}
+      <li className="flex items-center">
+        <ShoppingCart />
+        </li>
+      </ul>
+      {toggle && <MenuNavbar/>}
     </nav>
   );
 };
